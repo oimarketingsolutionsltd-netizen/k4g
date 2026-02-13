@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Master Task List – 5-Day Sprint</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      padding: 30px 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1a1a2e;
+      letter-spacing: -0.5px;
+    }
+    header p {
+      margin-top: 6px;
+      color: #555;
+      font-size: 0.95rem;
+    }
+    .progress-bar-wrap {
+      background: #dde0e8;
+      border-radius: 50px;
+      height: 10px;
+      margin: 16px auto 0;
+      max-width: 400px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #7c3aed, #4f46e5);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    .progress-label {
+      text-align: center;
+      font-size: 0.82rem;
+      color: #888;
+      margin-top: 6px;
+    }
+
+    /* SECTION BLOCKS */
+    .section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .section-subtitle {
+      font-size: 0.78rem;
+      color: #888;
+      margin-top: 1px;
+    }
+    .badge {
+      margin-left: auto;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+
+    /* TASK ITEMS */
+    .task-list { list-style: none; }
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .task-item:hover { background: #f7f8fc; }
+    .task-item.done { opacity: 0.45; }
+    .task-item.done .task-text { text-decoration: line-through; }
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .task-item.done .checkbox {
+      border-color: #7c3aed;
+      background: #7c3aed;
+    }
+    .task-item.done .checkbox::after {
+      content: '✓';
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .task-text { font-size: 0.92rem; line-height: 1.45; }
+    .task-meta {
+      font-size: 0.75rem;
+      color: #999;
+      margin-top: 2px;
+    }
+    .priority {
+      margin-left: auto;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+    .high   { background: #fee2e2; color: #dc2626; }
+    .med    { background: #fef3c7; color: #d97706; }
+    .low    { background: #d1fae5; color: #059669; }
+
+    /* DAY GRID */
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .day-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 16px 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-top: 4px solid #e5e7eb;
+    }
+    .day-card.d1 { border-top-color: #7c3aed; }
+    .day-card.d2 { border-top-color: #4f46e5; }
+    .day-card.d3 { border-top-color: #0ea5e9; }
+    .day-card.d4 { border-top-color: #10b981; }
+    .day-card.d5 { border-top-color: #f59e0b; }
+    .day-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .day-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .day-tasks {
+      font-size: 0.78rem;
+      color: #555;
+      line-height: 1.7;
+    }
+    .day-tasks li {
+      list-style: none;
+      padding-left: 0;
+    }
+    .day-tasks li::before {
+      content: '→ ';
+      color: #aaa;
+    }
+
+    /* COLOR PALETTE */
+    .c-purple { background: #ede9fe; color: #6d28d9; }
+    .c-blue   { background: #dbeafe; color: #1d4ed8; }
+    .c-green  { background: #d1fae5; color: #065f46; }
+    .c-orange { background: #ffedd5; color: #c2410c; }
+    .c-pink   { background: #fce7f3; color: #9d174d; }
+    .c-teal   { background: #ccfbf1; color: #0f766e; }
+
+    /* STAT STRIP */
+    .stat-strip {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      flex: 1;
+      min-width: 120px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px 16px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .stat-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 0.72rem;
+      color: #888;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    h2.section-divider {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #aaa;
+      margin: 28px 0 14px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 640px) {
+      .day-grid { grid-template-columns: 1fr 1fr; }
+      .stat-strip { gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🧠 Master Task List</h1>
+  <p>5-Day Sprint Plan &nbsp;·&nbsp; All priorities, one place</p>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="globalBar"></div>
+  </div>
+  <div class="progress-label" id="globalLabel">0 of 0 tasks complete</div>
+</header>
+
+<!-- STATS -->
+<div class="stat-strip">
+  <div class="stat-card"><div class="stat-num" style="color:#7c3aed;">3</div><div class="stat-lbl">PPTs to Improve</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:#4f46e5;">10</div><div class="stat-lbl">Interviews to Book</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:#0ea5e9;">100</div><div class="stat-lbl">Grants to Apply</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:#10b981;">10</div><div class="stat-lbl">Sign-ups Target</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:#e11d48;">60</div><div class="stat-lbl">Ads to Post</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:#db2777;">50</div><div class="stat-lbl">IG Adds & DMs</div></div>
+</div>
+
+<!-- 5-DAY PLAN -->
+<h2 class="section-divider">📅 Your 5-Day Game Plan</h2>
+<div class="day-grid">
+  <div class="day-card d1">
+    <div class="day-label">Monday · 17 Feb</div>
+    <div class="day-title">Grants Blitz Day 1 🔥</div>
+    <ul class="day-tasks">
+      <li>✍️ 2 sign-ups</li>
+      <li>Apply for 50 grants & donations</li>
+      <li>Improve Kiwis for Good PPT</li>
+      <li>Write recruitment ad copy</li>
+      <li>Post 10 Facebook ads</li>
+      <li>Post 10 Instagram ads</li>
+      <li>Add 25 people on IG & DM</li>
+      <li>Book 2 interviews</li>
+    </ul>
+  </div>
+  <div class="day-card d2">
+    <div class="day-label">Tuesday · 18 Feb</div>
+    <div class="day-title">Grants Blitz Day 2 🔥</div>
+    <ul class="day-tasks">
+      <li>✍️ 2 sign-ups</li>
+      <li>Apply for 50 grants & donations</li>
+      <li>Improve OI Marketing PPT</li>
+      <li>Rewrite pitches</li>
+      <li>Post 10 Facebook ads</li>
+      <li>Post 10 Instagram ads</li>
+      <li>Add 25 people on IG & DM</li>
+      <li>Book 2 interviews</li>
+    </ul>
+  </div>
+  <div class="day-card d3">
+    <div class="day-label">Wednesday · 19 Feb</div>
+    <div class="day-title">Presentations & Ads</div>
+    <ul class="day-tasks">
+      <li>✍️ 2 sign-ups</li>
+      <li>Follow up on grants submitted</li>
+      <li>Improve Evergiving PPT</li>
+      <li>Create Kiwis proposal slide</li>
+      <li>Post 5 Facebook ads (final)</li>
+      <li>Post 5 Instagram ads (final)</li>
+      <li>Book 2 interviews</li>
+    </ul>
+  </div>
+  <div class="day-card d4">
+    <div class="day-label">Thursday · 20 Feb</div>
+    <div class="day-title">Google Ads & Drive</div>
+    <ul class="day-tasks">
+      <li>✍️ 2 sign-ups</li>
+      <li>Follow up on grants</li>
+      <li>Post 5 Google ads</li>
+      <li>Organise Google Drive</li>
+      <li>Post recruitment ads</li>
+      <li>Book 2 interviews</li>
+    </ul>
+  </div>
+  <div class="day-card d5">
+    <div class="day-label">Friday · 21 Feb</div>
+    <div class="day-title">Follow-Up & Close Out</div>
+    <ul class="day-tasks">
+      <li>✍️ 2 sign-ups</li>
+      <li>Post final 5 Google ads</li>
+      <li>Post recruitment ads</li>
+      <li>Follow up more grants</li>
+      <li>Book final 2 interviews</li>
+      <li>Review & tidy all work</li>
+    </ul>
+  </div>
+</div>
+
+<!-- PRESENTATIONS -->
+<h2 class="section-divider">🎯 Task Sections</h2>
+
+<!-- SIGN-UPS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon c-orange">✍️</div>
+    <div>
+      <div class="section-title">Daily Sign-Ups</div>
+      <div class="section-subtitle">2 sign-ups per day = 10 total</div>
+    </div>
+    <span class="badge c-orange">Daily Target</span>
+  </div>
+  <ul class="task-list">
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Monday — 2 sign-ups</div><div class="task-meta">Running total: 2</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Tuesday — 2 sign-ups</div><div class="task-meta">Running total: 4</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Wednesday — 2 sign-ups</div><div class="task-meta">Running total: 6</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Thursday — 2 sign-ups</div><div class="task-meta">Running total: 8</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Friday — 2 sign-ups</div><div class="task-meta">Running total: 10 ✅</div></div>
+      <span class="priority high">High</span>
+    </li>
+  </ul>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon c-purple">📊</div>
+    <div>
+      <div class="section-title">PowerPoint Presentations</div>
+      <div class="section-subtitle">3 presentations to improve</div>
+    </div>
+    <span class="badge c-purple">Priority 1</span>
+  </div>
+  <ul class="task-list">
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Improve Kiwis for Good presentation</div><div class="task-meta">Review slides, refresh design, strengthen messaging</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Create Kiwis for Good proposal slide</div><div class="task-meta">Dedicated PowerPoint slide for proposals</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Improve OI Marketing Solutions Ltd presentation</div><div class="task-meta">Update content, branding, and flow</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Improve Evergiving presentation</div><div class="task-meta">Refine narrative and visual layout</div></div>
+      <span class="priority high">High</span>
+    </li>
+  </ul>
+</div>
+
+<!-- RECRUITMENT -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon c-blue">👥</div>
+    <div>
+      <div class="section-title">Fundraiser Recruitment</div>
+      <div class="section-subtitle">Book 10 interviews by Friday</div>
+    </div>
+    <span class="badge c-blue">Priority 1</span>
+  </div>
+  <ul class="task-list">
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Rewrite recruitment ads</div><div class="task-meta">Make them compelling, clear, and conversion-focused</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Post recruitment ads</div><div class="task-meta">LinkedIn, Indeed, Facebook Groups, local boards</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Book interviews — Mon & Tue (4 booked)</div><div class="task-meta">Running total: 4</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Book interviews — Wed & Thu (4 booked)</div><div class="task-meta">Running total: 8</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Book final 2 interviews — Friday</div><div class="task-meta">Running total: 10 ✅</div></div>
+      <span class="priority high">High</span>
+    </li>
+  </ul>
+</div>
+
+<!-- GRANTS & DONATIONS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon c-green">💰</div>
+    <div>
+      <div class="section-title">Grants & Donations</div>
+      <div class="section-subtitle">100 applications — Mon & Tue are grants days</div>
+    </div>
+    <span class="badge" style="background:#fee2e2;color:#dc2626;">🔥 Top Priority</span>
+  </div>
+  <ul class="task-list">
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Apply for 50 grants / donations — Monday</div><div class="task-meta">Start first thing · Use template applications for speed</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Apply for 50 grants / donations — Tuesday</div><div class="task-meta">Start first thing · Continue from shortlist</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Follow up on submitted grant applications</div><div class="task-meta">Thu–Fri · Chase responses on earlier submissions</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Follow up on more grants (broader outreach)</div><div class="task-meta">Friday · Widen net to additional grant bodies</div></div>
+      <span class="priority high">High</span>
+    </li>
+  </ul>
+</div>
+
+<!-- PITCHES & ORGANISATION -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon c-teal">🗂️</div>
+    <div>
+      <div class="section-title">Pitches & Organisation</div>
+      <div class="section-subtitle">Rewrites & Google Drive tidy-up</div>
+    </div>
+    <span class="badge c-teal">Admin</span>
+  </div>
+  <ul class="task-list">
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Rewrite pitches</div><div class="task-meta">Sharpen language, tighten the ask, improve flow</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Organise Google Drive</div><div class="task-meta">Create clear folder structure for all projects</div></div>
+      <span class="priority med">Med</span>
+    </li>
+  </ul>
+</div>
+
+<!-- SOCIAL MEDIA -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon c-pink">📱</div>
+    <div>
+      <div class="section-title">Social Media Blitz</div>
+      <div class="section-subtitle">60 ads posted · 50 Instagram adds & DMs</div>
+    </div>
+    <span class="badge c-pink">Priority 1</span>
+  </div>
+  <ul class="task-list">
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Post 25 ads on Facebook</div><div class="task-meta">Spread across Mon–Wed · Use varied copy & imagery</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Post 25 ads on Instagram</div><div class="task-meta">Spread across Mon–Wed · Reels, Stories & Feed posts</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Post 10 ads on Google</div><div class="task-meta">Set up Google Ads campaigns · Thu–Fri</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Add 50 people on Instagram — Batch 1 (25)</div><div class="task-meta">Mon–Tue · Target relevant accounts in your niche</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">Add 50 people on Instagram — Batch 2 (25)</div><div class="task-meta">Wed–Thu · Continue outreach list</div></div>
+      <span class="priority high">High</span>
+    </li>
+    <li class="task-item" onclick="toggle(this)">
+      <div class="checkbox"></div>
+      <div><div class="task-text">DM all 50 new Instagram connections</div><div class="task-meta">Send within 24hrs of following · Personal, short message</div></div>
+      <span class="priority high">High</span>
+    </li>
+  </ul>
+</div>
+
+<script>
+  function toggle(el) {
+    el.classList.toggle('done');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const all = document.querySelectorAll('.task-item');
+    const done = document.querySelectorAll('.task-item.done');
+    const pct = all.length ? Math.round((done.length / all.length) * 100) : 0;
+    document.getElementById('globalBar').style.width = pct + '%';
+    document.getElementById('globalLabel').textContent =
+      done.length + ' of ' + all.length + ' tasks complete (' + pct + '%)';
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>
