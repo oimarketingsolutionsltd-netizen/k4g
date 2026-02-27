@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F2F. — The Fundraiser's Guide</title>
+<meta name="description" content="The complete face-to-face fundraising guide, merch, and tools — built by someone who's been pitching for thirteen years.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0a1628;
+    --navy-light: #122a4a;
+    --blue: #4a8bcc;
+    --blue-glow: rgba(74,139,204,0.15);
+    --cream: #f5f0e8;
+    --cream-dark: #e8e0d0;
+    --dark: #0d0d0d;
+    --text: #1a1a1a;
+    --text-mid: #5c5040;
+    --text-light: #8a7e6e;
+    --border: #d4c9b8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ==========================================
+     HERO SECTION
+     ========================================== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 30px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,0.012) 80px, rgba(255,255,255,0.012) 81px),
+      radial-gradient(ellipse at 30% 20%, rgba(74,139,204,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(74,139,204,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 0.85;
+    letter-spacing: -4px;
+    margin-bottom: 8px;
+  }
+
+  .hero-brand span { color: var(--blue); }
+
+  .hero-tagline {
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 1.5px;
+    line-height: 1.8;
+    max-width: 420px;
+    margin: 0 auto 50px;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 32px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-primary {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #5a9bdc;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(74,139,204,0.3);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .btn-outline:hover {
+    color: #fff;
+    border-color: rgba(255,255,255,0.4);
+    transform: translateY(-2px);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .hero-scroll span {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ==========================================
+     SECTION BASE
+     ========================================== */
+  .section {
+    padding: 100px 30px;
+  }
+
+  .section-dark { background: var(--dark); }
+  .section-cream { background: var(--cream); }
+  .section-navy { background: var(--navy); }
+
+  .section-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 20px;
+  }
+
+  .section-cream .section-eyebrow { color: var(--navy-light); }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .section-dark .section-title,
+  .section-navy .section-title { color: #fff; }
+  .section-cream .section-title { color: var(--text); }
+
+  .section-body {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.85;
+    margin-bottom: 36px;
+  }
+
+  .section-dark .section-body { color: rgba(255,255,255,0.55); }
+  .section-navy .section-body { color: rgba(255,255,255,0.55); }
+  .section-cream .section-body { color: var(--text-mid); }
+
+  /* ==========================================
+     PULL QUOTE DIVIDER
+     ========================================== */
+  .divider-quote {
+    padding: 70px 30px;
+    background: var(--navy);
+    text-align: center;
+    position: relative;
+  }
+
+  .divider-quote::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(74,139,204,0.3), transparent);
+  }
+
+  .divider-quote::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(74,139,204,0.3), transparent);
+  }
+
+  .dq-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    color: var(--blue);
+    line-height: 0.5;
+    margin-bottom: 24px;
+  }
+
+  .dq-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.45;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ==========================================
+     PRODUCT CARDS
+     ========================================== */
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .product-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .product-card:hover {
+    border-color: rgba(74,139,204,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 50px rgba(0,0,0,0.4);
+  }
+
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--blue);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .product-card:hover::before { opacity: 1; }
+
+  .pc-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 14px;
+  }
+
+  .pc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+
+  .pc-body {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.75;
+    margin-bottom: 24px;
+  }
+
+  .pc-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 20px;
+  }
+
+  .pc-price strong {
+    font-size: 24px;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .pc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--blue);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(74,139,204,0.3);
+    padding-bottom: 4px;
+    transition: all 0.2s;
+  }
+
+  .pc-btn:hover {
+    color: #fff;
+    border-color: #fff;
+  }
+
+  /* ==========================================
+     MERCH PREVIEW
+     ========================================== */
+  .merch-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .merch-item {
+    flex: 1;
+    min-width: 180px;
+    background: var(--cream-dark);
+    border: 1px solid var(--border);
+    padding: 30px 24px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .merch-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+  }
+
+  .merch-icon {
+    font-size: 36px;
+    margin-bottom: 14px;
+  }
+
+  .merch-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .merch-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-light);
+  }
+
+  /* ==========================================
+     EMAIL SIGNUP
+     ========================================== */
+  .signup-box {
+    background: rgba(74,139,204,0.06);
+    border: 1px solid rgba(74,139,204,0.2);
+    padding: 50px;
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .signup-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .signup-sub {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 28px;
+    line-height: 1.7;
+  }
+
+  .signup-form {
+    display: flex;
+    gap: 10px;
+    max-width: 460px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .signup-input {
+    flex: 1;
+    min-width: 220px;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .signup-input::placeholder { color: rgba(255,255,255,0.25); }
+
+  .signup-input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(74,139,204,0.15);
+  }
+
+  .signup-btn {
+    padding: 14px 28px;
+    background: var(--blue);
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .signup-btn:hover {
+    background: #5a9bdc;
+    transform: translateY(-1px);
+  }
+
+  .signup-note {
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    margin-top: 14px;
+  }
+
+  .signup-success {
+    display: none;
+    padding: 20px;
+    color: var(--blue);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  /* ==========================================
+     INSTAGRAM CTA
+     ========================================== */
+  .ig-section {
+    text-align: center;
+  }
+
+  .ig-handle {
+    font-family: 'DM Mono', monospace;
+    font-size: 28px;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .ig-handle:hover {
+    color: var(--blue);
+    transform: scale(1.02);
+  }
+
+  .ig-sub {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    margin-top: 12px;
+    line-height: 1.7;
+  }
+
+  /* ==========================================
+     FOOTER
+     ========================================== */
+  .footer {
+    padding: 50px 30px;
+    background: var(--dark);
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.08);
+    margin-bottom: 10px;
+  }
+
+  .footer-copy {
+    font-size: 11px;
+    color: rgba(255,255,255,0.15);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* ==========================================
+     RESPONSIVE
+     ========================================== */
+  @media (max-width: 640px) {
+    .hero-brand { font-size: 72px; letter-spacing: -2px; }
+    .hero-tagline { font-size: 13px; }
+    .section { padding: 70px 24px; }
+    .section-title { font-size: 32px; }
+    .product-card { padding: 30px 24px; }
+    .signup-box { padding: 36px 24px; }
+    .dq-text { font-size: 20px; }
+    .ig-handle { font-size: 20px; }
+    .hero-cta-group { flex-direction: column; align-items: center; }
+    .btn { width: 100%; max-width: 280px; justify-content: center; }
+  }
+
+  /* ==========================================
+     SCROLL ANIMATIONS
+     ========================================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-brand">F2F<span>.</span></h1>
+      <p class="hero-tagline">The complete face-to-face fundraising guide, gear, and tools — built by someone who's been pitching for thirteen years and still loves it.</p>
+      <div class="hero-cta-group">
+        <a href="#products" class="btn btn-primary">Get the Guide →</a>
+        <a href="#signup" class="btn btn-outline">Join the List</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>↓</span>
+    </div>
+  </section>
+
+  <!-- ============ QUOTE DIVIDER ============ -->
+  <div class="divider-quote">
+    <div class="dq-mark">"</div>
+    <p class="dq-text">Every no is a step closer. You've heard it. Now go and find out what it actually means.</p>
+  </div>
+
+  <!-- ============ THE BOOK ============ -->
+  <section class="section section-cream" id="book">
+    <div class="section-inner reveal">
+      <p class="section-eyebrow">The Book</p>
+      <h2 class="section-title">The guide the industry never wrote.</h2>
+      <p class="section-body">Thirteen years of pitching. Four countries. Every mistake, every technique, every hard-won lesson — in one book. From the first ten seconds of the stop through to the psychology of giving, objection handling, reading people, and building a career that takes you anywhere. This is your bible. Study it.</p>
+      <p class="section-body">Written by a fundraiser, for fundraisers. Not by a committee. Not by someone who watched from the office. By someone who's still out there pitching.</p>
+      <a href="#products" class="btn btn-primary" style="background: var(--navy); color: #fff;">Get Your Copy →</a>
+    </div>
+  </section>
+
+  <!-- ============ QUOTE DIVIDER 2 ============ -->
+  <div class="divider-quote">
+    <div class="dq-mark">"</div>
+    <p class="dq-text">Belief is for losers. Knowing is what makes the difference.</p>
+  </div>
+
+  <!-- ============ MERCH SECTION ============ -->
+  <section class="section section-cream" id="merch">
+    <div class="section-inner reveal">
+      <p class="section-eyebrow">The Gear</p>
+      <h2 class="section-title">Rep the culture.</h2>
+      <p class="section-body">Gear for fundraisers who get it. If you know what a donut day is, if you've ever broken one at 3pm and felt invincible, if "boom, there he is" means something to you — this is yours.</p>
+      <div class="merch-row">
+        <div class="merch-item">
+          <div class="merch-icon">👕</div>
+          <p class="merch-name">Every No Tee</p>
+          <p class="merch-price">$32</p>
+        </div>
+        <div class="merch-item">
+          <div class="merch-icon">🧥</div>
+          <p class="merch-name">F2F. Hoodie</p>
+          <p class="merch-price">$52</p>
+        </div>
+        <div class="merch-item">
+          <div class="merch-icon">🏷️</div>
+          <p class="merch-name">Sticker Pack</p>
+          <p class="merch-price">$6</p>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top: 36px;">
+        <a href="#" class="btn btn-primary" style="background: var(--navy); color: #fff;">Shop Merch →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCTS SECTION (DARK) ============ -->
+  <section class="section section-dark" id="products">
+    <div class="section-inner">
+      <p class="section-eyebrow reveal">Everything</p>
+      <h2 class="section-title reveal">Three ways in.</h2>
+      <p class="section-body reveal">Whether you're a new starter on day one, a team leader building a crew, or a business owner running an operation — there's something here for you.</p>
+
+      <div class="products-grid">
+        <div class="product-card reveal">
+          <p class="pc-tag">For Fundraisers</p>
+          <h3 class="pc-title">F2F. — The Guide</h3>
+          <p class="pc-body">The complete face-to-face fundraising guide. The stop, the pitch, objection handling, reading people, the psychology of giving, working across countries, building a career. Everything you need, nothing you don't.</p>
+          <p class="pc-price"><strong>$19.99</strong> — Digital download</p>
+          <!-- REPLACE href WITH YOUR PAYHIP LINK -->
+          <a href="#" class="pc-btn">Buy Now →</a>
+        </div>
+
+        <div class="product-card reveal">
+          <p class="pc-tag">For the Culture</p>
+          <h3 class="pc-title">F2F. Merch</h3>
+          <p class="pc-body">T-shirts, hoodies, stickers. Insider phrases that only fundraisers get. Wear it on the road trip. Stick it on the clipboard. Rep the job properly.</p>
+          <p class="pc-price">From <strong>$6</strong></p>
+          <!-- REPLACE href WITH YOUR SPRING STORE LINK -->
+          <a href="#" class="pc-btn">Browse Store →</a>
+        </div>
+
+        <div class="product-card reveal">
+          <p class="pc-tag">For Businesses</p>
+          <h3 class="pc-title">The Fundraiser Hub</h3>
+          <p class="pc-body">A complete training and management platform for F2F operations. Dashboard, pitch tracker, leaderboard, pledge reports, call scripts, training modules with assessment, coaching tools, and admin panel. Everything your team needs in one system.</p>
+          <p class="pc-price"><strong>$199</strong> — One-time purchase</p>
+          <!-- REPLACE href WITH YOUR PAYHIP LINK FOR THE HUB -->
+          <a href="#" class="pc-btn">Learn More →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EMAIL SIGNUP ============ -->
+  <section class="section section-navy" id="signup">
+    <div class="section-inner">
+      <div class="signup-box reveal">
+        <h3 class="signup-title">Join the F2F. community</h3>
+        <p class="signup-sub">Tips, industry takes, and first access to everything we drop. No spam. Just the good stuff.</p>
+        <!-- 
+          TO CONNECT MAILERLITE:
+          1. Create a MailerLite account (free up to 1,000 subscribers)
+          2. Create an embedded form in MailerLite
+          3. Replace this form's action URL with your MailerLite form action
+          4. Update the input name to match MailerLite's field name
+        -->
+        <form class="signup-form" id="signup-form" onsubmit="handleSignup(event)">
+          <input type="email" class="signup-input" placeholder="Your email" required id="signup-email">
+          <button type="submit" class="signup-btn">I'm In →</button>
+        </form>
+        <div class="signup-success" id="signup-success">
+          ✓ You're on the list. Welcome to F2F.
+        </div>
+        <p class="signup-note">We respect your inbox. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INSTAGRAM ============ -->
+  <section class="section section-dark ig-section" id="instagram">
+    <div class="section-inner reveal">
+      <p class="section-eyebrow" style="text-align:center">Follow the Brand</p>
+      <!-- REPLACE href AND TEXT WITH YOUR ACTUAL INSTAGRAM HANDLE -->
+      <a href="https://instagram.com/f2f.guide" target="_blank" class="ig-handle">@f2f.guide</a>
+      <p class="ig-sub">Tips. Memes. War stories. The fundraiser's feed.</p>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <p class="footer-brand">F2F.</p>
+    <p class="footer-copy">© 2025 Frankie Marks. All rights reserved.</p>
+  </footer>
+
+<script>
+// ============ SCROLL REVEAL ============
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+reveals.forEach(el => observer.observe(el));
+
+// ============ EMAIL SIGNUP (placeholder) ============
+function handleSignup(e) {
+  e.preventDefault();
+  const email = document.getElementById('signup-email').value;
+  
+  // TODO: Replace with MailerLite API call
+  // For now, show success message
+  console.log('Email signup:', email);
+  
+  document.getElementById('signup-form').style.display = 'none';
+  document.getElementById('signup-success').style.display = 'block';
+}
+
+// ============ SMOOTH SCROLL FOR ANCHOR LINKS ============
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
